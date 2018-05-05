@@ -19,3 +19,4 @@ interface UserPasswordEncoderInterface
 	 */
 	public function encodePassword(string $rawPassword, ?string $salt = null): string;
 }
+
