@@ -35,7 +35,7 @@ class User implements UserInterface
         $this->id = $id;
         $this->login = strlen($login) > 0 ? strtolower($login) : null;
         $this->password = strlen($password) > 0 ? $password : null;
-        $this->salt = 'a45h7h5k734b'; //TODO: add generateSalt();
+        $this->salt = 'a45h7'; //TODO: add generateSalt();
     }
 
     /**

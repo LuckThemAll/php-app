@@ -235,14 +235,15 @@
 </head>
 <body>
 <div id="wrapper">
-    <form name="login-form" class="login-form" action="">
+    <form name="login-form" class="login-form" action="" method="post">
 
         <div class="header">
-            <h1>Авторизация</h1>
+            <h1>Регистрация</h1>
+            <h1>{{ login }}<h1>
         </div>
 
         <div class="content">
-            <input name="username" type="text" class="input user.name" value="Логин" onfocus="this.value=''" />
+            <input name="login" type="text" class="input user.name" value="Логин" onfocus="this.value=''" />
             <input name="password" type="password" class="input password" value="Пароль" onfocus="this.value=''" />
         </div>
 

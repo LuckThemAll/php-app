@@ -35,7 +35,6 @@ class UserToken implements UserTokenInterface
      */
     public function isAnonymous()
     {
-        //TODO add implementation;
-        return false;
+        return gettype($this->user) === 'NULL';
     }
 }
