@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Artem
- * Date: 11.05.2018
- * Time: 14:30
- */
 
 namespace App\Authentication\Service;
 
@@ -13,6 +7,7 @@ use App\Authentication\Repository\UserRepository;
 use App\Authentication\UserInterface;
 use App\Authentication\UserToken;
 use App\Authentication\UserTokenInterface;
+use Symfony\Component\HttpFoundation\Cookie;
 
 class AuthenticationService implements AuthenticationServiceInterface
 {
@@ -33,7 +28,7 @@ class AuthenticationService implements AuthenticationServiceInterface
     public function authenticate($credentials)
     {
         if ($credentials) {
-            $user = $this->userRepository->findByLogin($credentials->getLogin());
+            $user = $this->userRepository->findByLogin($credentials['login']);
             return new UserToken($user);
         }
         return new UserToken(null);
@@ -47,7 +42,10 @@ class AuthenticationService implements AuthenticationServiceInterface
      */
     public function generateCredentials(UserInterface $user)
     {
-        $userFromDB = $this->userRepository->findByLogin($user->getLogin());
-        return $userFromDB;
+        $cred = array(
+            'login' => $user->getLogin(),
+            'pass'  => $user->getPassword()
+        );
+        return $cred;
     }
 }

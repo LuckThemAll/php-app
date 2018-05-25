@@ -30,15 +30,12 @@ class UserRepository implements UserRepositoryInterface
      */
     public function findById(int $id): ?UserInterface
     {
-        if ($this->db){
-            echo '<br>connected';
-        }
         $q = $this->db->prepare("SELECT  * FROM users WHERE id = ?");
-        $q ->bind_param('i', $login);
+        $q ->bind_param('i', $id);
         $q ->execute();
         $result = $q->get_result()->fetch_assoc();
         $q ->close();
-        return new User('3', 'sdfsdfsdfds', 'qeqweqwr');
+        return new User($result['id'], $result['login'], $result['password']);
     }
 
     /**
@@ -49,17 +46,15 @@ class UserRepository implements UserRepositoryInterface
      */
     public function findByLogin(string $login): ?UserInterface
     {
-        if ($this->db){
-            echo '<br>connected';
-        }
         $q = $this->db->prepare("SELECT  * FROM users WHERE login = ?");
         $q ->bind_param('s', $login);
         $q ->execute();
         $result = $q->get_result()->fetch_assoc();
-        echo '<br>'.$result['login'];
-        echo '<br>'.$result['password'];
         $q ->close();
-        return new User('3', 'sdfsdfsdfds', 'qeqweqwr');
+        if ($result){
+            return new User($result['id'], $result['login'], $result['password']);
+        }
+        return null;
     }
 
     /**
@@ -69,9 +64,9 @@ class UserRepository implements UserRepositoryInterface
      */
     public function save(UserInterface $user)
     {
-        echo '<br>'.$user->getPassword();
         $q = $this->db->prepare("insert into users(login, password, salt) values (?,?,?)");
-        $q ->bind_param('sss', $user->getLogin(), $user->getPassword(), $user->getSalt());
-        $q ->execute();
+        $q->bind_param('sss', $user->getLogin(), $user->getPassword(), $user->getSalt());
+        $q->execute();
+        $q->close;
     }
 }

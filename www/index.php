@@ -6,12 +6,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 $URI = $_SERVER['REQUEST_URI'];
+$string = 'containerM';
 
-$contaiter_m = new containerM();
+$contaiter_m = new $string();
 $request = Request::createFromGlobals();
 
 
-$response = $contaiter_m->router->parseUri($request);
+
+$response = $contaiter_m->route($request);
 $response->prepare($request);
 $response->send();
 

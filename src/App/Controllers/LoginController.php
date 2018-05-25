@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controllers;
 
 use App\Authentication\User;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -48,38 +49,48 @@ class LoginController
         if ($this->isPost()) {
             $login = $this->request->request->getAlnum('login');
             $pass = $this->request->request->getAlnum('password');
-            echo '<br>Логин:'.$login.'<br>Пароль:'.$pass;
             if (strlen($login) < 1 || strlen($pass) < 1){
                 $this->render('singIn.html.twig', $data);
                 return $this->response;
             }
-
-            $user = new User(null, $login, $pass);
-
+            if ($user = $this->container->get('repos')->findByLogin($login)){
+                if (password_verify($pass, $user->getPassword())){
+                    // todo $this->response->headers->setCookie(new Cookie($cred['login'], $cred['pass']));
+                }
+            }
+            else{
+                $data['login'] = $login;
+                $this->render('signIn.html.twig', $data);
+                return $this->response;
+            }
             $cred = $this->container->get('auth')->generateCredentials($user);
+            $userToken = $this->container->get('auth')->authenticate($cred);
+
+            if (!$userToken->isAnonymous()) {
+                $data['login'] = $userToken->getUser()->getLogin();
+                $this->render('profile.html.twig', $data);
+                return $this->response;
+            }
         }
-
-        $userToken = $this->container->get('auth')->authenticate($cred);
-
-        if (!$userToken->isAnonymous()) {
-            $data['login'] = $userToken->getUser()->getLogin();
-        }
-
         $this->render('signIn.html.twig', $data);
         return $this->response;
     }
 
+    /**
+     * @return Response
+     * @throws \Exception
+     */
     public function registerAction(): Response
     {
-        $data = [];
+        $data = []; //todo след задание о себе, модификация юзера, отдельная таблица в БД
         if ($this->isPost()) {
             $enc = new UserPasswordEncoder();
-            $login = $this->request->request->getAlnum('login');
+            $data['login'] = $this->request->request->getAlnum('login');
             $pass = $enc->encodePassword($this->request->request->getAlnum('password'));
-            echo '<br>Логин:'.$login.'<br>Пароль:'.$pass;
-            $user = new User(null, $login, $pass);
-            if (strlen($login) > 1 || strlen($pass) > 1){
+            $user = new User(null, $data['login'], $pass);
+            if (strlen($data['login']) > 0 || strlen($pass) > 0){
                 $this->container->get('repos')->save($user);
+                $this->render('signIn.html.twig', $data);
                 return $this->response;
             }
         }

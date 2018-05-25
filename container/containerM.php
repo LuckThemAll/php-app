@@ -44,4 +44,8 @@ class containerM
         $this->router = new Router($this->container);
     }
 
+    public function route(Request $request)
+    {
+        return $this->router->parseUri($request);
+    }
 }
