@@ -14,7 +14,9 @@ use App\Authentication\UserInterface;
 
 class UserRepository implements UserRepositoryInterface
 {
-
+    /**
+     * @var \mysqli
+     */
     private $db;
 
     public function __construct($db)
@@ -67,6 +69,6 @@ class UserRepository implements UserRepositoryInterface
         $q = $this->db->prepare("insert into users(login, password, salt) values (?,?,?)");
         $q->bind_param('sss', $user->getLogin(), $user->getPassword(), $user->getSalt());
         $q->execute();
-        $q->close;
+        $q->close();
     }
 }

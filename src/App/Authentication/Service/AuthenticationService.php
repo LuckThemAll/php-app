@@ -4,6 +4,7 @@ namespace App\Authentication\Service;
 
 
 use App\Authentication\Repository\UserRepository;
+use App\Authentication\Repository\UserRepositoryInterface;
 use App\Authentication\UserInterface;
 use App\Authentication\UserToken;
 use App\Authentication\UserTokenInterface;
@@ -11,10 +12,12 @@ use Symfony\Component\HttpFoundation\Cookie;
 
 class AuthenticationService implements AuthenticationServiceInterface
 {
-
+    /**
+     * @var UserRepositoryInterface
+     */
     private $userRepository;
 
-    public function __construct(UserRepository $userRepository)
+    public function __construct(UserRepositoryInterface $userRepository)
     {
         $this->userRepository = $userRepository;
     }
@@ -28,9 +31,16 @@ class AuthenticationService implements AuthenticationServiceInterface
     public function authenticate($credentials)
     {
         if ($credentials) {
-            $cookie = preg_split("/( )+/", $credentials);
-            $user = $this->userRepository->findByLogin($cookie[0]);
-            return new UserToken($user);
+            list($userLogin, $hash) = preg_split("/( )+/", $credentials);
+            $user = $this->userRepository->findByLogin($userLogin);
+
+            if (!$user) {
+                return new UserToken(null);
+            }
+
+            if (password_verify($hash, $user->getPassword())){
+                return new UserToken($user);
+            }
         }
         return new UserToken(null);
     }

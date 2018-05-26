@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Authentication\User;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -59,7 +60,7 @@ class LoginController
             $current_cookie = $this->container->get('auth')->generateCredentials($user);
             $cookie = new Cookie('auth_cookie', $current_cookie);
             $this->response->headers->setCookie($cookie);
-            //todo спросить как по нормльному шифровать куки, и нужноли сохранять в них пароль с логинов
+
         }
         $userToken = $this->container->get('auth')->authenticate($current_cookie);
 
@@ -87,11 +88,19 @@ class LoginController
             if (strlen($data['login']) > 0 || strlen($pass) > 0){
                 $this->container->get('repos')->save($user);
                 $this->render('signIn.html.twig', $data);
-                return $this->response;
+                return new RedirectResponse('/signIn');
             }
         }
 
         $this->render('registration.html.twig', $data);
+        return $this->response;
+    }
+
+    public function logoutAction(): Response
+    {
+        $data = [];
+        $this->response->headers->clearCookie('auth_cookie');
+        $this->render('logout.html.twig', $data);
         return $this->response;
     }
 
