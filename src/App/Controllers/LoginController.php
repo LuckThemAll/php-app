@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Authentication\User;
+use App\Authentication\UserTokenInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -13,33 +14,8 @@ use Twig_Environment;
 use Twig_Loader_Filesystem;
 use App\Authentication\Encoder\UserPasswordEncoder;
 
-class LoginController
+class LoginController extends BaseController
 {
-    /**
-     * @var ContainerBuilder
-     */
-    protected $container;
-    /**
-     * @var Request
-     */
-    protected $request;
-    /**
-     * @var Response
-     */
-    protected $response;
-
-    /**
-     * BaseController constructor.
-     * @param ContainerBuilder $container
-     * @param Request $request
-     */
-    public function __construct(ContainerBuilder $container, Request $request)
-    {
-        $this->container = $container;
-        $this->request = $request;
-        $this->response = new Response();
-    }
-
     /**
      * @return Response
      * @throws \Exception
@@ -47,7 +23,6 @@ class LoginController
     public function signInAction(): Response
     {
         $data = [];
-        $current_cookie = $this->request->cookies->get('auth_cookie');
         if ($this->isPost()) {
             $login = $this->request->request->getAlnum('login');
             $pass = $this->request->request->getAlnum('password');
@@ -55,19 +30,16 @@ class LoginController
                 $this->render('singIn.html.twig', $data);
                 return $this->response;
             }
-            $user = new User(null, $login, $pass);
+            $userToken = $this->container->get('auth')->authenticateByLogPass($login, $pass);
 
-            $current_cookie = $this->container->get('auth')->generateCredentials($user);
-            $cookie = new Cookie('auth_cookie', $current_cookie);
-            $this->response->headers->setCookie($cookie);
-
-        }
-        $userToken = $this->container->get('auth')->authenticate($current_cookie);
-
-        if (!$userToken->isAnonymous()) {
-            $data['login'] = $userToken->getUser()->getLogin();
-            $this->render('profile.html.twig', $data);
-            return $this->response;
+            if (!$userToken->isAnonymous()) {
+                $cookie = $this->container->get('auth')->generateCredentials($userToken->getUser());
+                $cookie = new Cookie('auth_cookie', $cookie);
+                $this->response->headers->setCookie($cookie);
+                $data['login'] = $userToken->getUser()->getLogin();
+                $this->render('profile.html.twig', $data);
+                return $this->response;
+            }
         }
         $this->render('signIn.html.twig', $data);
         return $this->response;
@@ -85,10 +57,13 @@ class LoginController
             $data['login'] = $this->request->request->getAlnum('login');
             $pass = $enc->encodePassword($this->request->request->getAlnum('password'));
             $user = new User(null, $data['login'], $pass);
-            if (strlen($data['login']) > 0 || strlen($pass) > 0){
+            if (strlen($data['login']) > 0 && strlen($pass) > 0){
                 $this->container->get('repos')->save($user);
-                $this->render('signIn.html.twig', $data);
-                return new RedirectResponse('/signIn');
+                $cookie = $this->container->get('auth')->generateCredentials($user);
+                $cookie = new Cookie('auth_cookie', $cookie);
+                $this->response = new RedirectResponse('/');
+                $this->response->headers->setCookie($cookie);
+                return $this->response;
             }
         }
 
@@ -98,25 +73,9 @@ class LoginController
 
     public function logoutAction(): Response
     {
-        $data = [];
+        $this->response = new RedirectResponse('/');
         $this->response->headers->clearCookie('auth_cookie');
-        $this->render('logout.html.twig', $data);
         return $this->response;
-    }
-
-    /**
-     * @param string $templateName
-     * @param array $params
-     * @return bool
-     */
-    protected function render(string $templateName, array $params = []): bool
-    {
-        try {
-            $this->response->setContent($this->container->get('twig')->render($templateName, $params));
-            return true;
-        } catch (\Exception $e) {
-            return false;
-        }
     }
 
     /**

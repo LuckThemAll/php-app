@@ -38,10 +38,32 @@ class AuthenticationService implements AuthenticationServiceInterface
                 return new UserToken(null);
             }
 
-            if (password_verify($hash, $user->getPassword())){
+            if ($hash = $user->getPassword()){ //todo спросить как тут сравнивать, получаю хешированный пароль, в user тоже хеш лежит
                 return new UserToken($user);
             }
         }
+        return new UserToken(null);
+    }
+
+    /**
+     * @param string $login
+     * @param string $rawPassword
+     * @return UserTokenInterface
+     */
+    public function authenticateByLogPass(string $login, string $rawPassword)
+    {
+        if (strlen($login) > 0 || strlen($rawPassword) > 0){
+            $user = $this->userRepository->findByLogin($login);
+
+            if (!$user) {
+                return new UserToken(null);
+            }
+
+            if ($user && password_verify($rawPassword, $user->getPassword())){
+                return new UserToken($user);
+            }
+        }
+
         return new UserToken(null);
     }
 
@@ -54,7 +76,7 @@ class AuthenticationService implements AuthenticationServiceInterface
     public function generateCredentials(UserInterface $user)
     {
         $db_user = $this->userRepository->findByLogin($user->getLogin());
-        if ($db_user && password_verify($user->getPassword(), $db_user->getPassword())){
+        if ($db_user && $user->getPassword() == $db_user->getPassword()){
             $cred = $user->getLogin().' '.$user->getPassword();
             return $cred;
         }

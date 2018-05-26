@@ -2,6 +2,7 @@
 
 namespace App\Routing;
 
+use App\Controllers\BaseController;
 use App\Controllers\LoginController;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpFoundation\Request;
@@ -82,9 +83,10 @@ class Router
     public function parseUri(Request $request): Response
     {
         $URI = $this->get_uri($request);
+        echo $request->cookies->get('auth_cookie');
         switch ($URI) {
             case '/':{
-                return (new LoginController($this->container, $request))->signInAction();
+                return (new BaseController($this->container, $request))->Main();
             }
             case '/signIn':{
                 return (new LoginController($this->container, $request))->signInAction();

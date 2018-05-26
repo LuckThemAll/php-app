@@ -36,6 +36,14 @@ interface AuthenticationServiceInterface
 	 */
 	public function authenticate($credentials);
 
+    /**
+     * @param string $login
+     * @param string $rawPassword
+     * @return mixed
+     */
+    public function authenticateByLogPass(string $login, string $rawPassword);
+
+
 	/**
 	 * Метод генерирует authentication credentials
 	 *
