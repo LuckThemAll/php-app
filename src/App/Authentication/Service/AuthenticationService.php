@@ -28,7 +28,8 @@ class AuthenticationService implements AuthenticationServiceInterface
     public function authenticate($credentials)
     {
         if ($credentials) {
-            $user = $this->userRepository->findByLogin($credentials['login']);
+            $cookie = preg_split("/( )+/", $credentials);
+            $user = $this->userRepository->findByLogin($cookie[0]);
             return new UserToken($user);
         }
         return new UserToken(null);
@@ -42,10 +43,11 @@ class AuthenticationService implements AuthenticationServiceInterface
      */
     public function generateCredentials(UserInterface $user)
     {
-        $cred = array(
-            'login' => $user->getLogin(),
-            'pass'  => $user->getPassword()
-        );
-        return $cred;
+        $db_user = $this->userRepository->findByLogin($user->getLogin());
+        if ($db_user && password_verify($user->getPassword(), $db_user->getPassword())){
+            $cred = $user->getLogin().' '.$user->getPassword();
+            return $cred;
+        }
+        return null;
     }
 }

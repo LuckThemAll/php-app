@@ -46,6 +46,7 @@ class LoginController
     public function signInAction(): Response
     {
         $data = [];
+        $current_cookie = $this->request->cookies->get('auth_cookie');
         if ($this->isPost()) {
             $login = $this->request->request->getAlnum('login');
             $pass = $this->request->request->getAlnum('password');
@@ -53,24 +54,19 @@ class LoginController
                 $this->render('singIn.html.twig', $data);
                 return $this->response;
             }
-            if ($user = $this->container->get('repos')->findByLogin($login)){
-                if (password_verify($pass, $user->getPassword())){
-                    // todo $this->response->headers->setCookie(new Cookie($cred['login'], $cred['pass']));
-                }
-            }
-            else{
-                $data['login'] = $login;
-                $this->render('signIn.html.twig', $data);
-                return $this->response;
-            }
-            $cred = $this->container->get('auth')->generateCredentials($user);
-            $userToken = $this->container->get('auth')->authenticate($cred);
+            $user = new User(null, $login, $pass);
 
-            if (!$userToken->isAnonymous()) {
-                $data['login'] = $userToken->getUser()->getLogin();
-                $this->render('profile.html.twig', $data);
-                return $this->response;
-            }
+            $current_cookie = $this->container->get('auth')->generateCredentials($user);
+            $cookie = new Cookie('auth_cookie', $current_cookie);
+            $this->response->headers->setCookie($cookie);
+            //todo спросить как по нормльному шифровать куки, и нужноли сохранять в них пароль с логинов
+        }
+        $userToken = $this->container->get('auth')->authenticate($current_cookie);
+
+        if (!$userToken->isAnonymous()) {
+            $data['login'] = $userToken->getUser()->getLogin();
+            $this->render('profile.html.twig', $data);
+            return $this->response;
         }
         $this->render('signIn.html.twig', $data);
         return $this->response;
