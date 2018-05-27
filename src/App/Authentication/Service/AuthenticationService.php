@@ -38,7 +38,7 @@ class AuthenticationService implements AuthenticationServiceInterface
                 return new UserToken(null);
             }
 
-            if ($hash = $user->getPassword()){ //todo спросить как тут сравнивать, получаю хешированный пароль, в user тоже хеш лежит
+            if ($hash == $user->getPassword()){ 
                 return new UserToken($user);
             }
         }
