@@ -28,7 +28,7 @@ class AuthenticationService implements AuthenticationServiceInterface
      * @param mixed $credentials
      * @return UserTokenInterface
      */
-    public function authenticate($credentials)
+    public function authenticateByCred($credentials)
     {
         if ($credentials) {
             list($userLogin, $hash) = preg_split("/( )+/", $credentials);
@@ -38,7 +38,7 @@ class AuthenticationService implements AuthenticationServiceInterface
                 return new UserToken(null);
             }
 
-            if ($hash == $user->getPassword()){ 
+            if ($hash == $user->getPassword()){
                 return new UserToken($user);
             }
         }
@@ -63,7 +63,6 @@ class AuthenticationService implements AuthenticationServiceInterface
                 return new UserToken($user);
             }
         }
-
         return new UserToken(null);
     }
 

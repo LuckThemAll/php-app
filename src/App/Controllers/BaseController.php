@@ -9,10 +9,13 @@
 namespace App\Controllers;
 
 
+use App\Authentication\Service\AuthenticationService;
+use App\Authentication\UserInterface;
 use App\Authentication\UserTokenInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Twig_Environment;
 
 class BaseController
 {
@@ -49,9 +52,8 @@ class BaseController
     public function Main(): Response
     {
         $data = [];
-        $current_cookie = $this->request->cookies->get('auth_cookie');
-        $userToken = $this->container->get('auth')->authenticate($current_cookie);
-        echo 'from base '.$current_cookie;
+        $current_cookie = $this->request->cookies->get(UserInterface::AuthCookieName);
+        $userToken = $this->container->get(AuthenticationService::class)->authenticateByCred($current_cookie);
         if (!$userToken->isAnonymous()) {
             $data['login'] = $userToken->getUser()->getLogin();
             $this->render('main.html.twig', $data);
@@ -69,7 +71,7 @@ class BaseController
     protected function render(string $templateName, array $params = []): bool
     {
         try {
-            $this->response->setContent($this->container->get('twig')->render($templateName, $params));
+            $this->response->setContent($this->container->get(Twig_Environment::class)->render($templateName, $params));
             return true;
         } catch (\Exception $e) {
             return false;

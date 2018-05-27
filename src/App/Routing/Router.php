@@ -83,7 +83,6 @@ class Router
     public function parseUri(Request $request): Response
     {
         $URI = $this->get_uri($request);
-        echo $request->cookies->get('auth_cookie');
         switch ($URI) {
             case '/':{
                 return (new BaseController($this->container, $request))->Main();

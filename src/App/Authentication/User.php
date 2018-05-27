@@ -19,10 +19,7 @@ class User implements UserInterface
      */
     private $password;
 
-    /**
-     * @var string|null
-     */
-    private $salt;
+
 
     /**
      * User constructor.
@@ -33,9 +30,8 @@ class User implements UserInterface
     public function __construct(?int $id, string $login, string $password)
     {
         $this->id = $id;
-        $this->login = strlen($login) > 0 ? strtolower($login) : null;
+        $this->login = $login;
         $this->password = $password;
-        $this->salt = 'a45h7'; //TODO: add generateSalt();
     }
 
     /**
@@ -66,15 +62,5 @@ class User implements UserInterface
     public function getPassword(): string
     {
         return $this->password;
-    }
-
-    /**
-     * Метод возвращает соль, которая участвовала при построении пароля
-     *
-     * @return string|null
-     */
-    public function getSalt(): ?string
-    {
-        return $this->salt;
     }
 }

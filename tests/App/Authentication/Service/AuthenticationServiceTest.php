@@ -21,7 +21,7 @@ class AuthenticationServiceTest extends TestCase
 			->willReturn(null);
 
 		$service = new AuthenticationService($repository);
-		$userToken = $service->authenticate("test 1234");
+		$userToken = $service->authenticateByCred("test 1234");
 		$this->assertTrue($userToken->isAnonymous());
 	}
 
@@ -38,7 +38,7 @@ class AuthenticationServiceTest extends TestCase
             ->willReturn($user);
 
         $service = new AuthenticationService($repository);
-        $userToken = $service->authenticate("test 1234");
+        $userToken = $service->authenticateByCred("test 1234");
         $this->assertTrue($userToken->isAnonymous());
     }
 
@@ -55,7 +55,7 @@ class AuthenticationServiceTest extends TestCase
             ->willReturn($user);
 
         $service = new AuthenticationService($repository);
-        $userToken = $service->authenticate("test test");
+        $userToken = $service->authenticateByCred("test test");
         $this->assertFalse($userToken->isAnonymous());
     }
 }

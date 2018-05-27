@@ -24,10 +24,10 @@ class containerM
         $this->container = new ContainerBuilder();
 
         $twig_loader = new Twig_Loader_Filesystem(__DIR__.'/../templates');
-        $this->container->register('twig', Twig_Environment::class)
+        $this->container->register(Twig_Environment::class, Twig_Environment::class)
             ->setArguments([$twig_loader]);
 
-        $this->container->register('db', mysqli::class)
+        $this->container->register(mysqli::class, mysqli::class)
             ->setArguments([
                 'mysql',
                 'app',
@@ -35,15 +35,20 @@ class containerM
                 'test'
             ]);
 
-        $this->container->register('repos', UserRepository::class)
-            ->setArguments([new Reference('db')]);
+        $this->container->register(UserRepository::class, UserRepository::class)
+            ->setArguments([new Reference(mysqli::class)]);
 
-        $this->container->register('auth', AuthenticationService::class)
-            ->setArguments([new Reference('repos')]);
+        $this->container->register(AuthenticationService::class, AuthenticationService::class)
+            ->setArguments([new Reference(UserRepository::class)]);
 
         $this->router = new Router($this->container);
     }
 
+    /**
+     * @param Request $request
+     * @return Response
+     * @throws Exception
+     */
     public function route(Request $request)
     {
         return $this->router->parseUri($request);

@@ -34,7 +34,7 @@ interface AuthenticationServiceInterface
 	 * @param mixed $credentials
 	 * @return UserTokenInterface
 	 */
-	public function authenticate($credentials);
+	public function authenticateByCred($credentials);
 
     /**
      * @param string $login

@@ -10,6 +10,9 @@ namespace App\Authentication;
  */
 interface UserInterface
 {
+
+    const AuthCookieName = 'auth_cookie';
+
 	/**
 	 * Метод возвращает идентификационную информацию пользователя (первичный ключ в БД пользователей приложения)
 	 *
@@ -30,11 +33,4 @@ interface UserInterface
 	 * @return string
 	 */
 	public function getPassword(): string;
-
-	/**
-	 * Метод возвращает соль, которая участвовала при построении пароля
-	 *
-	 * @return string|null
-	 */
-	public function getSalt(): ?string;
 }

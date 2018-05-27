@@ -33,11 +33,14 @@ class UserRepository implements UserRepositoryInterface
     public function findById(int $id): ?UserInterface
     {
         $q = $this->db->prepare("SELECT  * FROM users WHERE id = ?");
-        $q ->bind_param('i', $id);
+        $q ->bind_param('s', $id);
         $q ->execute();
-        $result = $q->get_result()->fetch_assoc();
+        if ($result = $q->get_result()->fetch_assoc()){
+            $q ->close();
+            return new User($result['id'], $result['login'], $result['password']);
+        }
         $q ->close();
-        return new User($result['id'], $result['login'], $result['password']);
+        return null;
     }
 
     /**
@@ -51,11 +54,11 @@ class UserRepository implements UserRepositoryInterface
         $q = $this->db->prepare("SELECT  * FROM users WHERE login = ?");
         $q ->bind_param('s', $login);
         $q ->execute();
-        $result = $q->get_result()->fetch_assoc();
-        $q ->close();
-        if ($result){
+        if ($result = $q->get_result()->fetch_assoc()){
+            $q ->close();
             return new User($result['id'], $result['login'], $result['password']);
         }
+        $q ->close();
         return null;
     }
 
@@ -66,9 +69,11 @@ class UserRepository implements UserRepositoryInterface
      */
     public function save(UserInterface $user)
     {
-        $q = $this->db->prepare("insert into users(login, password, salt) values (?,?,?)");
-        $q->bind_param('sss', $user->getLogin(), $user->getPassword(), $user->getSalt());
-        $q->execute();
-        $q->close();
+        if ($user) {
+            $q = $this->db->prepare("insert into users(login, password) values (?,?)");
+            $q->bind_param('ss', $user->getLogin(), $user->getPassword());
+            $q->execute();
+            $q->close();
+        }
     }
 }
