@@ -42,6 +42,9 @@ class containerM
             ->setArguments([new Reference(UserRepository::class)]);
 
         $this->router = new Router($this->container);
+
+        $this->container->register(UserInfoRepository::class, UserInfoRepository::class)
+            ->setArguments([new Reference(mysqli::class)]);
     }
 
     /**

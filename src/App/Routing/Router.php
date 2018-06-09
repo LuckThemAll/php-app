@@ -4,6 +4,7 @@ namespace App\Routing;
 
 use App\Controllers\BaseController;
 use App\Controllers\LoginController;
+use App\Controllers\UserInfoController;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -94,6 +95,11 @@ class Router
                 return (new LoginController($this->container, $request))->registerAction();
             case '/logout':
                 return (new LoginController($this->container, $request))->logoutAction();
+            case '/userInfo':
+                return (new UserInfoController($this->container, $request))->getUserInfo();
+            case '/userInfo/update':
+                return (new UserInfoController($this->container, $request))->UpdateUserInfo();
+
             default:
                 return new Response("404", 404);
         }

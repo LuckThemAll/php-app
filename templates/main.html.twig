@@ -9,8 +9,12 @@
 <body>
 {% if login != '' %}
         <h1>Привет, {{  login }}!</h1>
-        <h1>"Это main страница, должна вылезти после регистрации и логина по кукам!</h1>
+        <h1>Это главная страница</h1>
+        <a href="/userInfo"><h1>Профиль</h1></a>
+        <a href="/logout"><h1>Выход</h1></a>
+{% else %}
+        <a href="/registration"><h1>Регистрация</h1></a>
+        <a href="/signIn"><h1>Вход</h1></a>
 {% endif %}
-<a href="/logout">logOut</a>
 </body>
 </html>

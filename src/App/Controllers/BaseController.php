@@ -10,6 +10,7 @@ namespace App\Controllers;
 
 
 use App\Authentication\Service\AuthenticationService;
+use App\Authentication\Service\AuthenticationServiceInterface;
 use App\Authentication\UserInterface;
 use App\Authentication\UserTokenInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -54,6 +55,7 @@ class BaseController
         $data = [];
         $current_cookie = $this->request->cookies->get(UserInterface::AuthCookieName);
         $userToken = $this->container->get(AuthenticationService::class)->authenticateByCred($current_cookie);
+        /** @var UserTokenInterface $userToken */
         if (!$userToken->isAnonymous()) {
             $data['login'] = $userToken->getUser()->getLogin();
             $this->render('main.html.twig', $data);
@@ -77,4 +79,21 @@ class BaseController
             return false;
         }
     }
+
+    /**
+     * @return bool
+     */
+    public function isPost(): bool
+    {
+        return $this->request->isMethod('POST');
+    }
+
+    /**
+     * @return bool
+     */
+    public function isGet(): bool
+    {
+        return $this->request->isMethod('GET');
+    }
+
 }
