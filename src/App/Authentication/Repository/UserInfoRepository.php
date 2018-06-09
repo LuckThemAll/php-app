@@ -39,6 +39,7 @@ class UserInfoRepository implements UserInfoRepositoryInterface{
         $q ->execute();
         if ($result = $q->get_result()->fetch_assoc()){
             $q ->close();
+
             return new UserInfo($result['id'], $result['user_id'], $result['firstName'], $result['secondName'],
                 $result['sex'], $result['workspace'], $result['about']);
         }
@@ -57,8 +58,8 @@ class UserInfoRepository implements UserInfoRepositoryInterface{
      */
     public function updateUserInfo($user_id, $first_name, $second_name, $sex, $workspace, $about): void
     {
-        $q = $this->db->prepare("update user_info set first_name=?, second_name=?, sex=?, workspace=?, about=? where user_id = ?");
-        $q->bind_param('sssssi', $first_name, $second_name, $sex, $workspace, $user_id, $about);
+        $q = $this->db->prepare("update user_info set firstName=?, secondName=?, sex=?, workspace=?, about=? where user_id = ?");
+        $q->bind_param('sssssi', $first_name, $second_name, $sex, $workspace, $about, $user_id);
         $q->execute();
         $q->close();
         return;

@@ -9,9 +9,9 @@ class UserInfo implements UserInfoInterface{
 
     private $user_id;
 
-    private $first_name;
+    private $firstName;
 
-    private $second_name;
+    private $secondName;
 
     private $sex;
 
@@ -23,18 +23,18 @@ class UserInfo implements UserInfoInterface{
      * UserInfo constructor.
      * @param $id
      * @param $user_id
-     * @param $first_name
-     * @param $second_name
+     * @param $firstName
+     * @param $secondName
      * @param $sex
      * @param $workspace
      * @param $about
      */
-    public function __construct($id, $user_id, $first_name, $second_name, $sex, $workspace, $about)
+    public function __construct($id, $user_id, $firstName, $secondName, $sex, $workspace, $about)
     {
         $this->id = $id;
         $this->user_id = $user_id;
-        $this->first_name = $first_name;
-        $this->second_name = $second_name;
+        $this->firstName = $firstName;
+        $this->secondName = $secondName;
         $this->sex = $sex;
         $this->workspace = $workspace;
         $this->about = $about;
@@ -53,7 +53,7 @@ class UserInfo implements UserInfoInterface{
      */
     public function getFirstName(): ?string
     {
-        return $this->first_name;
+        return $this->firstName;
     }
 
     /**
@@ -61,7 +61,7 @@ class UserInfo implements UserInfoInterface{
      */
     public function getSecondName(): ?string
     {
-        return $this->second_name;
+        return $this->secondName;
     }
 
     /**

@@ -7,30 +7,34 @@
     {% endblock %}
 </head>
 <body>
+    <form name="content">
+        Имя:
+        {% block firstName %}
+        {% endblock %}
 
-    Имя:
-    {% block firstName %}
-    {% endblock %}
+        <br>
+        Фамилия:
+        {% block secondName %}
+        {% endblock %}
 
-    <br>
-    Фамилия:
-    {% block secondName %}
-    {% endblock %}
+        <br>
+        Пол:
+        {% block sex %}
+        {% endblock %}
 
-    <br>
-    Пол:
-    {% block sex %}
-    {% endblock %}
+        <br>
+        Место работы:
+        {% block workspace %}
+        {% endblock %}
 
-    <br>
-    Место работы:
-    {% block workspace %}
-    {% endblock %}
+        <br>
+        О себе:
+        {% block about %}
+        {% endblock %}
 
-    <br>
-    О себе:
-    {% block about %}
-    {% endblock %}
-
+        <br>
+        {% block other %}
+        {% endblock %}
+    </form>
 </body>
 </html>

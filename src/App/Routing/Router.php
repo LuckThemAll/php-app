@@ -98,7 +98,7 @@ class Router
             case '/userInfo':
                 return (new UserInfoController($this->container, $request))->getUserInfo();
             case '/userInfo/update':
-                return (new UserInfoController($this->container, $request))->UpdateUserInfo();
+                return (new UserInfoController($this->container, $request))->updateUserInfo();
 
             default:
                 return new Response("404", 404);

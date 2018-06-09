@@ -1,25 +1,27 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <link rel="stylesheet" href="/static/css/style.css">
-
-</head>
-<body>
-<div id="wrapper">
-    <form method="post">
-
-        <input type="text" name="firstName" /><br>
-        <input type="text" name="secondName" /><br>
-        <input type="text" name="sex" /><br>
-        <input type="text" name="workspace" /><br>
-        <input type="text" name="about" /><br>
-        <input type="submit" value="Сохранить"><br>
-        <a href="/">На главную</a>
+{% extends "userInfoBase.html.twig" %}
 
 
-    </form>
-</div>
+{% block firstName %}
+    <input type="text" name="firstName" value="{{ userInfo.getFirstName() }}"/>
+{% endblock %}
 
-</body>
-</html>
+{% block secondName %}
+    <input type="text" name="secondName" value="{{ userInfo.getSecondName() }}"/>
+{% endblock %}
+
+{% block sex %}
+    <input type="text" name="sex" value="{{ userInfo.getSex() }}"/>
+{% endblock %}
+{% block workspace %}
+    <input type="text" name="workspace" value="{{ userInfo.getWorkspace() }}"/>
+{% endblock %}
+
+{% block about %}
+    <input type="text" name="about" value="{{ userInfo.getAbout() }}"/>
+{% endblock %}
+
+{% block other %}
+    <input type="submit" formmethod="post" value="Сохранить"><br>
+    <a href="/userInfo">Профиль</a>
+{% endblock %}
+
