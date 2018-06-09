@@ -1,25 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <link rel="stylesheet" href="/static/css/style.css">
-
+    {% block head %}
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link rel="stylesheet" href="/static/css/style.css">
+    {% endblock %}
 </head>
 <body>
-<div id="wrapper">
-    <form method="post">
-
-        <input type="text" name="firstName" /><br>
-        <input type="text" name="secondName" /><br>
-        <input type="text" name="sex" /><br>
-        <input type="text" name="workspace" /><br>
-        <input type="text" name="about" /><br>
-        <input type="submit" value="Сохранить"><br>
-        <a href="/">На главную</a>
-
-
-    </form>
-</div>
+    <h1>Привет, {{  login }}!</h1>
+    <a href="/logout">logOut</a><br>
 
 </body>
 </html>

@@ -1,31 +1,16 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <link rel="stylesheet" href="/static/css/style.css">
+{% extends "BaseAuth.html.twig" %}
 
-</head>
-<body>
-<div id="wrapper">
-    <form name="login-form" class="login-form" action="" method="post">
+{% block header %}
+    <h1> Регистрация </h1>
+{% endblock %}
 
-        <div class="header">
-            <h1>Регистрация</h1>
-            <h1>{{ login }}<h1>
-        </div>
+{% block content %}
+    <input name="login" type="text" class="input user.name" placeholder="Логин" />
+    <input name="password" type="password" class="input password" placeholder="Пароль" />
+{% endblock %}
 
-        <div class="content">
-            <input name="login" type="text" class="input user.name" value="Логин" onfocus="this.value=''" />
-            <input name="password" type="password" class="input password" value="Пароль" onfocus="this.value=''" />
-        </div>
-
-        <div class="footer">
-            <input type="submit" name="submit" value="signUp" class="button" />
-            <a href="/signIn">Войти</a>
-        </div>
-
-    </form>
-</div>
-
-</body>
-</html>
+{% block footer %}
+    <input type="submit" name="submit" value="Зарегаться" class="button" />
+    <a href="/">На главную</a>
+    <a href="/signIn">Войти</a>
+{% endblock %}
