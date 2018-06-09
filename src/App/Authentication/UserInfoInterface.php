@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Authentication;
+
 interface UserInfoInterface{
     /**
      * @return int

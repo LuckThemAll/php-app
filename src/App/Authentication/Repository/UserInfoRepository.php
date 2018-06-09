@@ -1,6 +1,10 @@
 <?php
 
+namespace App\Authentication\Repository;
+
 use App\Authentication\UserInterface;
+use App\Authentication\UserInfo;
+use mysqli;
 
 class UserInfoRepository implements UserInfoRepositoryInterface{
 
@@ -48,14 +52,14 @@ class UserInfoRepository implements UserInfoRepositoryInterface{
      * @param $second_name
      * @param $sex
      * @param $workspace
-     * @return null
+     * @return void
      */
-    public function updateUserInfo($user_id, $first_name, $second_name, $sex, $workspace): null
+    public function updateUserInfo($user_id, $first_name, $second_name, $sex, $workspace): void
     {
         $q = $this->db->prepare("update user_info set first_name=?, second_name=?, sex=?, workspace=? where user_id = ?");
         $q->bind_param('ssssi', $first_name, $second_name, $sex, $workspace, $user_id);
         $q->execute();
         $q->close();
-        return null;
+        return;
     }
 }

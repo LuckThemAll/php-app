@@ -1,13 +1,13 @@
 <?php
 
 use App\Authentication\Repository\UserRepository;
+use App\Authentication\Repository\UserInfoRepository;
 use App\Authentication\Service\AuthenticationService;
 use App\Routing\Router;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Session;
 
 class containerM
 {
@@ -41,10 +41,10 @@ class containerM
         $this->container->register(AuthenticationService::class, AuthenticationService::class)
             ->setArguments([new Reference(UserRepository::class)]);
 
-        $this->router = new Router($this->container);
-
         $this->container->register(UserInfoRepository::class, UserInfoRepository::class)
             ->setArguments([new Reference(mysqli::class)]);
+
+        $this->router = new Router($this->container);
     }
 
     /**

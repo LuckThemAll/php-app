@@ -2,8 +2,8 @@
 
 namespace App\Controllers;
 
+use App\Authentication\Repository\UserInfoRepository;
 use App\Authentication\Repository\UserRepository;
-use App\Authentication\Repository\UserRepositoryInterface;
 use App\Authentication\Service\AuthenticationService;
 use App\Authentication\User;
 use App\Authentication\UserInterface;
@@ -12,7 +12,6 @@ use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use App\Authentication\Encoder\UserPasswordEncoder;
-use UserInfoRepository;
 
 class LoginController extends BaseController
 {

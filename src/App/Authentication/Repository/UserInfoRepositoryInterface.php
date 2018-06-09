@@ -1,6 +1,9 @@
 <?php
 
+namespace App\Authentication\Repository;
+
 use App\Authentication\UserInterface;
+use App\Authentication\UserInfo;
 
 interface UserInfoRepositoryInterface{
 
@@ -14,7 +17,7 @@ interface UserInfoRepositoryInterface{
      * @param UserInterface $user
      * @return null
      */
-    public function createUserInfoRecord(UserInterface $user): null;
+    public function createUserInfoRecord(UserInterface $user);
 
     /**
      * @param $user_id
@@ -22,9 +25,9 @@ interface UserInfoRepositoryInterface{
      * @param $second_name
      * @param $sex
      * @param $workspace
-     * @return null
+     * @return void
      */
-    public function updateUserInfo($user_id, $first_name, $second_name, $sex, $workspace): null;
+    public function updateUserInfo($user_id, $first_name, $second_name, $sex, $workspace): void;
 
 
 }

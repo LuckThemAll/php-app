@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Authentication;
+
 use App\Authentication\UserInterface;
 
 class UserInfo implements UserInfoInterface{
