@@ -25,9 +25,10 @@ interface UserInfoRepositoryInterface{
      * @param $second_name
      * @param $sex
      * @param $workspace
+     * @param $about
      * @return void
      */
-    public function updateUserInfo($user_id, $first_name, $second_name, $sex, $workspace): void;
+    public function updateUserInfo($user_id, $first_name, $second_name, $sex, $workspace, $about): void;
 
 
 }

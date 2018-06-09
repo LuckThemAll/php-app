@@ -52,12 +52,13 @@ class UserInfoRepository implements UserInfoRepositoryInterface{
      * @param $second_name
      * @param $sex
      * @param $workspace
+     * @param $about
      * @return void
      */
-    public function updateUserInfo($user_id, $first_name, $second_name, $sex, $workspace): void
+    public function updateUserInfo($user_id, $first_name, $second_name, $sex, $workspace, $about): void
     {
-        $q = $this->db->prepare("update user_info set first_name=?, second_name=?, sex=?, workspace=? where user_id = ?");
-        $q->bind_param('ssssi', $first_name, $second_name, $sex, $workspace, $user_id);
+        $q = $this->db->prepare("update user_info set first_name=?, second_name=?, sex=?, workspace=?, about=? where user_id = ?");
+        $q->bind_param('sssssi', $first_name, $second_name, $sex, $workspace, $user_id, $about);
         $q->execute();
         $q->close();
         return;
