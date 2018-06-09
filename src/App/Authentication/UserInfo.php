@@ -5,6 +5,8 @@ namespace App\Authentication;
 
 class UserInfo implements UserInfoInterface{
 
+    private $id;
+
     private $user_id;
 
     private $first_name;
@@ -15,21 +17,27 @@ class UserInfo implements UserInfoInterface{
 
     private $workspace;
 
+    private $about;
+
     /**
      * UserInfo constructor.
+     * @param $id
      * @param $user_id
      * @param $first_name
      * @param $second_name
      * @param $sex
      * @param $workspace
+     * @param $about
      */
-    public function __construct($user_id, $first_name, $second_name, $sex, $workspace)
+    public function __construct($id, $user_id, $first_name, $second_name, $sex, $workspace, $about)
     {
+        $this->id = $id;
         $this->user_id = $user_id;
         $this->first_name = $first_name;
         $this->second_name = $second_name;
         $this->sex = $sex;
         $this->workspace = $workspace;
+        $this->about = $about;
     }
 
     /**
@@ -70,5 +78,21 @@ class UserInfo implements UserInfoInterface{
     public function getWorkSpace(): ?string
     {
         return $this->workspace;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getAbout(): ?string
+    {
+        return $this->about;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
     }
 }

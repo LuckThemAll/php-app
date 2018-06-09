@@ -6,6 +6,11 @@ interface UserInfoInterface{
     /**
      * @return int
      */
+    public function getId(): int;
+
+    /**
+     * @return int
+     */
     public function getUserId(): int;
 
     /**
@@ -27,4 +32,10 @@ interface UserInfoInterface{
      * @return null|string
      */
     public function getWorkSpace(): ?string;
+
+
+    /**
+     * @return null|string
+     */
+    public function getAbout(): ?string;
 }

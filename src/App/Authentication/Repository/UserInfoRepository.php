@@ -35,12 +35,12 @@ class UserInfoRepository implements UserInfoRepositoryInterface{
     public function findInfo(UserInterface $user): ?UserInfo
     {
         $q = $this->db->prepare("SELECT  * FROM user_info WHERE user_id = ?");
-        $q ->bind_param('s', $user->getId());
+        $q ->bind_param('i', $user->getId());
         $q ->execute();
         if ($result = $q->get_result()->fetch_assoc()){
             $q ->close();
-            return new UserInfo($result['user_id'], $result['first_name'], $result['second_name'],
-                $result['sex'], $result['workspace']);
+            return new UserInfo($result['id'], $result['user_id'], $result['firstName'], $result['secondName'],
+                $result['sex'], $result['workspace'], $result['about']);
         }
         $q ->close();
         return null;
