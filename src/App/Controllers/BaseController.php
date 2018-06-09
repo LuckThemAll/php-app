@@ -54,7 +54,7 @@ class BaseController
     {
         $data = [];
         /** @var UserTokenInterface $userToken */
-        $userToken = $this->get_user_token();
+        $userToken = $this->getUserToken();
         if (!$userToken->isAnonymous()) {
             $data['login'] = $userToken->getUser()->getLogin();
             $this->render('main.html.twig', $data);
@@ -68,7 +68,7 @@ class BaseController
      * @return UserToken
      * @throws \Exception
      */
-    public function get_user_token(): UserToken
+    public function getUserToken(): UserToken
     {
         $current_cookie = $this->request->cookies->get(UserInterface::AuthCookieName);
         return $this->container->get(AuthenticationService::class)->authenticateByCred($current_cookie);
