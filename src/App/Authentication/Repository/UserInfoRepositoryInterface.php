@@ -9,9 +9,9 @@ interface UserInfoRepositoryInterface{
 
     /**
      * @param UserInterface $user
-     * @return UserInfo
+     * @return UserInfo|null
      */
-    public function findInfo(UserInterface $user): UserInfo;
+    public function findInfo(UserInterface $user): ?UserInfo;
 
     /**
      * @param UserInterface $user

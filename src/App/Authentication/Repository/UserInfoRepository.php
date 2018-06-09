@@ -30,9 +30,9 @@ class UserInfoRepository implements UserInfoRepositoryInterface{
 
     /**
      * @param UserInterface $user
-     * @return UserInfo
+     * @return UserInfo|null
      */
-    public function findInfo(UserInterface $user): UserInfo
+    public function findInfo(UserInterface $user): ?UserInfo
     {
         $q = $this->db->prepare("SELECT  * FROM user_info WHERE user_id = ?");
         $q ->bind_param('s', $user->getId());
