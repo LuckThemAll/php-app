@@ -68,8 +68,7 @@ class UserInfoController extends BaseController
                 $workspace = $this->request->request->getAlnum('workspace');
                 $about = $this->request->request->getAlnum('about');
                 $userInfoRepos->updateUserInfo($user->getId(), $firstName, $secondName, $sex, $workspace, $about);
-                $data['userInfo'] = $this->getUserInfoData();
-                $this->render('userInfoUpdate.html.twig', $data);
+                $this->response = new RedirectResponse('/userInfo');
                 return $this->response;
             }
         }
