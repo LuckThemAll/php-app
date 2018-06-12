@@ -4,37 +4,48 @@
     {% block head %}
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <link rel="stylesheet" href="/static/css/style.css">
+        <link rel="stylesheet" href="/static/css/bulma.css">
     {% endblock %}
 </head>
 <body>
     <form name="content">
-        Имя:
-        {% block firstName %}
-        {% endblock %}
+        <nav class="level">
+            <div class="level-left"></div>
+            <div class="level-right">
+                <p class="level-item"><a href="/">Главная</a></p>
+                <p class="level-item"><a class="button is-success" href="/signIn">Вход</a></p>
+                <p class="level-item"><a class="button is-warning" href="/registration">Регистрация</a></p>
+            </div>
+        </nav>
+        <div class="container">
+                <br>
+                Фамилия:
+                {% block secondName %}
+                {% endblock %}
+            Имя:
+            {% block firstName %}
+            {% endblock %}
+            <br>
+            Пол:
+                {% block sex %}
+                {% endblock %}
 
-        <br>
-        Фамилия:
-        {% block secondName %}
-        {% endblock %}
+                <br>
+                Место работы:
+                {% block workspace %}
+                {% endblock %}
 
-        <br>
-        Пол:
-        {% block sex %}
-        {% endblock %}
+                <br>
+                О себе:
+                {% block about %}
+                {% endblock %}
 
-        <br>
-        Место работы:
-        {% block workspace %}
-        {% endblock %}
-
-        <br>
-        О себе:
-        {% block about %}
-        {% endblock %}
-
-        <br>
-        {% block other %}
-        {% endblock %}
+                <br>
+                {% block other %}
+                {% endblock %}
+                </div>
+        </div>
+        </div>
     </form>
 </body>
 </html>

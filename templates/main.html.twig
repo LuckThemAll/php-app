@@ -2,19 +2,32 @@
 <html>
 <head>
     {% block head %}
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <link rel="stylesheet" href="/static/css/style.css">
+            <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+            <link rel="stylesheet" href="/static/css/style.css">
+            <link rel="stylesheet" href="/static/css/bulma.css">
     {% endblock %}
 </head>
 <body>
-{% if login != '' %}
-        <h1>Привет, {{  login }}!</h1>
-        <h1>Это главная страница</h1>
-        <a href="/userInfo"><h1>Профиль</h1></a>
-        <a href="/logout"><h1>Выход</h1></a>
-{% else %}
-        <a href="/registration"><h1>Регистрация</h1></a>
-        <a href="/signIn"><h1>Вход</h1></a>
-{% endif %}
+    <nav class="level">
+        <div class="level-left">
+            {% if login != '' %}
+                    <p class="level-item"><a class="button" href="/userInfo">Профиль</a></p>
+                    <p class="level-item"><a class="button is-outlined" href="/logout">Выход</a></p>
+            {% endif %}
+        </div>
+        <div class="level-right">
+                <p class="level-item"><a href="/">Главная</a></p>
+                <p class="level-item"><a class="button is-success" href="/signIn">Вход</a></p>
+                <p class="level-item"><a class="button is-warning" href="/registration">Регистрация</a></p>
+        </div>
+    </nav>
+    {% if login != '' %}
+         <div class="container">
+                 <div class="box">
+                        <strong>Привет, {{ login }}</strong>
+                 </div>
+         </div>
+    {% endif %}
+
 </body>
 </html>

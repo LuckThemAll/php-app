@@ -1,27 +1,26 @@
 {% extends "userInfoBase.html.twig" %}
 
-
 {% block firstName %}
-    <input type="text" name="firstName" value="{{ userInfo.getFirstName() }}"/>
+    <input type="text" class="input" name="firstName" value="{{ userInfo.getFirstName() }}"/>
 {% endblock %}
 
 {% block secondName %}
-    <input type="text" name="secondName" value="{{ userInfo.getSecondName() }}"/>
+    <input type="text" class="input" name="secondName" value="{{ userInfo.getSecondName() }}"/>
 {% endblock %}
 
 {% block sex %}
-    <input type="text" name="sex" value="{{ userInfo.getSex() }}"/>
+    <input type="text" class="input" name="sex" value="{{ userInfo.getSex() }}"/>
 {% endblock %}
 {% block workspace %}
-    <input type="text" name="workspace" value="{{ userInfo.getWorkspace() }}"/>
+    <input type="text" class="input" name="workspace" value="{{ userInfo.getWorkspace() }}"/>
 {% endblock %}
 
 {% block about %}
-    <input type="text" name="about" value="{{ userInfo.getAbout() }}"/>
+    <input type="text" class="input" name="about" value="{{ userInfo.getAbout() }}"/>
 {% endblock %}
 
 {% block other %}
-    <input type="submit" formmethod="post" value="Сохранить"><br>
+    <input class="button is-success" type="submit" formmethod="post" value="Сохранить"><br>
     <a href="/userInfo">Профиль</a>
 {% endblock %}
 
