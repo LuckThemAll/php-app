@@ -4,6 +4,7 @@ namespace App\Routing;
 
 use App\Controllers\BaseController;
 use App\Controllers\LoginController;
+use App\Controllers\UserInfoApiController;
 use App\Controllers\UserInfoController;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpFoundation\Request;
@@ -99,7 +100,9 @@ class Router
                 return (new UserInfoController($this->container, $request))->getUserInfo();
             case '/userInfo/update':
                 return (new UserInfoController($this->container, $request))->updateUserInfo();
-
+            case preg_match('@^/API/1\.0/([^/]*)/userInfo\.json$@', $URI):
+                // /api/1.0/{login}/userInfo.json
+                return (new UserInfoApiController($this->container, $request))->getUserInfoJson();
             default:
                 return new Response("404", 404);
         }
