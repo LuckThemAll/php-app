@@ -10,41 +10,41 @@
 <body>
     <form name="content">
         <nav class="level">
-            <div class="level-left"></div>
-            <div class="level-right">
+            <div class="level-left">
                 <p class="level-item"><a href="/">Главная</a></p>
-                <p class="level-item"><a class="button is-success" href="/signIn">Вход</a></p>
-                <p class="level-item"><a class="button is-warning" href="/registration">Регистрация</a></p>
+                <p class="level-item"><a class="button" href="/userInfo">Профиль</a></p>
+                <p class="level-item"><a class="button is-outlined" href="/logout">Выход</a></p>
+            </div>
+            <div class="level-right">
             </div>
         </nav>
         <div class="container">
-                <br>
-                Фамилия:
-                {% block secondName %}
-                {% endblock %}
+            Фамилия:
+            {% block secondName %}
+            {% endblock %}
+
+            <br>
             Имя:
             {% block firstName %}
             {% endblock %}
             <br>
             Пол:
-                {% block sex %}
-                {% endblock %}
+            {% block sex %}
+            {% endblock %}
 
-                <br>
-                Место работы:
-                {% block workspace %}
-                {% endblock %}
+            <br>
+            Место работы:
+            {% block workspace %}
+            {% endblock %}
 
-                <br>
-                О себе:
-                {% block about %}
-                {% endblock %}
+            <br>
+            О себе:
+            {% block about %}
+            {% endblock %}
 
-                <br>
-                {% block other %}
-                {% endblock %}
-                </div>
-        </div>
+            <br>
+            {% block other %}
+            {% endblock %}
         </div>
     </form>
 </body>
